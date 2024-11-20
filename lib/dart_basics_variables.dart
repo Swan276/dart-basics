@@ -131,6 +131,118 @@ void records() {
   print(swappedPerson2);
 }
 
+void list() {
+  // Collections
+  // List, Set, Map
+  var list = [1, 3, 4, 6, "Car"];
+  print(list);
+  List list1 = [1, 2, 3 , false];
+  List<String> countries = ["Myanmar", "Thai", "UK"];
+  print(countries[0]);
+  print(countries.length);
+  print(countries.reversed.toList());
+  
+  countries.add("USA");
+  print(countries);
+  countries.addAll(["Mexico", "Canada"]);
+  print(countries);
+  countries[0] = "Burma";
+  print(countries);
+
+  List<String> people = const ["John", "Jane", "Jack"];
+  // error code
+  // people[1] = "May";
+  // people.add("May");
+  people = ["John", "Jane", "Jack", "May"];
+  print(people);
+
+  final List<String> countryCodes = const ["+95", "+66"];
+  
+  print(countryCodes);
+  // error code
+  // countryCodes.add("+92");
+  print(countryCodes);
+
+  final group = ["Swan"];
+  final newGroup = addToGroup(group, "John");
+  print(newGroup);
+
+  final group1 = ["Swan", "John"];
+  final group2 = ["Jane", "May"];
+  final newWholeGroup = [...group1, ...group2];
+  print(newWholeGroup);
+
+  final newCountryCodesList = [...countryCodes, "+92"];
+  print(newCountryCodesList);
+
+  final [swan, john] = group1;
+  print(swan);
+  print(john);
+}
+
+void branching() {
+  int statusCode = 404;
+
+  switch (statusCode) {
+    case 500:
+      print("Server Error");
+      break;
+    case 400:
+      print("Bad Request");
+    case 401:
+      print("Unauthorized");
+    case 404:
+      print("Not Found");
+    default:
+      print("Unknown Error");
+  }
+
+  final orderState = OrderStates.deliveryTakingOrder;
+
+  final orderStatus = switch (orderState) {
+    OrderStates.orderSet => "Pls Wait",
+    OrderStates.preparingInKitchen || OrderStates.deliveryTakingOrder => "Preparing",
+    OrderStates.delivering => "Delivery on the way",
+    OrderStates.delivered => "Order delivered! Pls enjoy",
+    _ => "Error Order",
+  };
+  print(orderStatus);
+}
+
+void errorHandling() {
+  // throw "string errror";
+  // throw CustomError("Some Error");
+  // throw 1;
+
+  final userInput = "1234";
+  // try {
+  //   operate(userInput);
+  //   print("set lote");
+  // } on CustomError catch (customError) {
+  //   print(customError.message);
+  // } on String catch (stringError) {
+  //   print(stringError);
+  // } catch (e) {
+  //   print("error operating user input");
+  // }
+  handle(() {
+    operate(userInput);
+  });
+}
+
+void functions() {
+  hello(1, 2, 3);
+  helloNamed(b: 1, a: 2);
+  helloOptional(1, 2);
+  helloPositionalNamed(1, b: 2, c: 3);
+  createUser(id: "id", name: "Swan", age: 123, email: "email", phoneNo: "123123", addr: "addr");
+
+  final numberList = [1,2,3,4,5,6,7,8,9];
+  handleNumbers(numberList, (number) {
+    print(number * number);
+  });
+}
+
 String getToken(int number) {
   print("getting token $number");
   return "fake token $number";
@@ -165,4 +277,88 @@ String parseJson(dynamic data) {
 
 ({String swappedPerson1, String swappedPerson2}) namedSwap(String person1, String person2) {
   return (swappedPerson1: person2, swappedPerson2: person1);
+}
+
+List<String> addToGroup(List<String> group, String person) {
+  group.add(person);
+  return group;
+}
+
+final coc = [1,2,4,5];
+
+enum OrderStates {
+  orderSet,
+  preparingInKitchen,
+  deliveryTakingOrder,
+  delivering,
+  delivered, error;
+}
+
+void operate(String userInput) {
+  late final int number;
+  try {
+    number = int.parse(userInput);  
+    throw Exception("Memory Out of Bound");
+  } on FormatException catch (e) {
+    throw "Pls input number only";
+  } catch (_) {
+    rethrow;
+  }
+
+  if (number == 123) {
+    throw CustomError("Pls do not enter 123");
+  }
+}
+
+void handle(void Function() callback) {
+  try {
+    callback();
+  } on FormatException catch (formatE) {
+    print("asldfsl");
+  } on CustomError catch (customError) {
+    print(customError.message);
+  } on String catch (s) {
+    print(s);
+  } catch (e) {
+    print("Error");
+  }
+}
+
+class CustomError {
+  CustomError(this.message);
+
+  final String message;
+
+  @override
+  String toString() => "CustomError(message: $message)";
+}
+
+// positional argument
+void hello(int a, int b, int c) {
+
+  }
+
+// named argument
+void helloNamed({required int a, required int b, int? c}) {
+
+}
+
+// optional positional argument
+void helloOptional(int a, int b, [int? c]) {
+
+}
+
+// positional + named argument
+void helloPositionalNamed(int a, {required int b, int? c}) {
+
+}
+
+void createUser({required String id,required  String name,required  int age,required  String email,required  String phoneNo,required  String addr}) {
+
+}
+
+void handleNumbers(List<int> numberList, void Function(int number) callback) {
+  for (var number in numberList) {
+    callback(number);
+  }
 }
