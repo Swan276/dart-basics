@@ -243,6 +243,37 @@ void functions() {
   });
 }
 
+void generic() {
+  final numSum = add(1, 2);
+  print(numSum);
+  final stringSum = add("Hello", "World");
+  print(stringSum);
+  final listSum = add<List<dynamic>>([1,2,3], [3,4,5]);
+  print(listSum);
+  final union = unionList([1,2,3], [3,4,5]);
+  print(union);
+
+  final stringCache = Cache<String>();
+  stringCache.put("name", "Swan");
+  print(stringCache.get("name"));
+
+  final intCache = Cache<int>();
+  intCache.put("userId", 123456);
+  print(intCache.get("userId"));
+
+  final userCache = Cache<User>();
+  userCache.put("admin", User(1, "Swan"));
+  print(userCache.get("admin"));
+
+  int? nullableNum = null;
+  int sum = 1 + nullableNum!;
+  print(sum);
+
+  final Cache<int>? store = null;
+  store?.put("key1", 1);
+  final result = store?.get("key1");
+}
+
 String getToken(int number) {
   print("getting token $number");
   return "fake token $number";
@@ -361,4 +392,44 @@ void handleNumbers(List<int> numberList, void Function(int number) callback) {
   for (var number in numberList) {
     callback(number);
   }
+}
+
+T add<T>(T a, T b) {
+  if (a is num && b is num) {
+    return a + b as T;
+  } else if (a is String && b is String) {
+    return a + b as T;
+  } else if (a is List && b is List) {
+    return [...a, ...b] as T;
+  } else {
+    throw Exception('Unsupported type');
+  }
+}
+
+List<T> unionList<T>(List<T> a, List<T> b) {
+  return [...a, ...b];
+}
+
+class Cache<T> {
+  final Map<String, dynamic> _cache = {};
+
+  void put(String key, T value) {
+    print("Type of value ${value.runtimeType}");
+    _cache[key] = value;
+  }
+
+  T get(String key) {
+    return _cache[key];
+  }
+}
+
+class User {
+  const User(this.id, this.name);
+
+  final int id;
+  final String name;
+
+  @override
+  String toString() => "User{id: $id, name: $name}";
+  
 }

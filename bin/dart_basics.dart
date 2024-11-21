@@ -9,7 +9,8 @@ void main(List<String> arguments) {
   // records();
   // branching();
   // errorHandling();
-  functions();
+  // functions();
+  generic();
   
 }
 
