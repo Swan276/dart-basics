@@ -1,6 +1,7 @@
 
 
 import 'package:dart_basics/dart_basics_variables.dart';
+import 'package:dart_basics/dart_classes.dart';
 
 void main(List<String> arguments) {
   // variables();
@@ -10,7 +11,7 @@ void main(List<String> arguments) {
   // branching();
   // errorHandling();
   // functions();
-  generic();
+  // generic();
+  classes();
   
 }
-
